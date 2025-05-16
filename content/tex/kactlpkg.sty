@@ -40,6 +40,8 @@
 	\def\@unilogo{#3}
 }
 
+\def\@leftheader{\@unilong \hspace{0.2em} - \hspace{0.2em} \@teamname}
+
 \newcommand{\enablecolors}{
 	\lstset{basicstyle=\footnotesize\ttfamily\color{mygreen}}
 	\lstset{commentstyle=\color{darkgray}\normalfont\itshape}
@@ -80,14 +82,29 @@
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
 \headheight 25pt
-\lhead{\@unishort}
+\lhead{
+	\begin{picture}(0,0)
+    	\put(820, 8){\rotatebox{270}{\@leftheader}}
+		\put(820, -573){\rotatebox{270}{\thepage}}
+	\end{picture}
+}
 \chead{\immediate\write18{python3 content/tex/preprocessor.py --print-header "\splitbotmarks\hdrmark|\botmarks\hdrmark" -o \@builddir/header2.tmp}\immediate\input{\@builddir/header2.tmp}}
-\rhead{\thepage}
+\rhead{}
 %\lhead{}\chead{\thepage}\rhead{}
 \lfoot{}\cfoot{}\rfoot{}
 \fancyheadoffset{0pt}
 \fancyfootoffset{0pt}
 \setlength\headsep{5pt}
+
+\fancypagestyle{plain}{%
+    \fancyhf{} % clear all header and footer fields
+	\lhead{
+		\begin{picture}(0,0)
+			\put(820, 8){\rotatebox{270}{\@leftheader}}
+			\put(820, -573){\rotatebox{270}{\thepage}}
+		\end{picture}
+	}
+}
 
 \renewcommand\chapter{
 	\global\@topnum\z@
@@ -220,9 +237,9 @@
 	\setcounter{page}{0}
 	\begin{center}
 		\strut % Magic
-		\vspace{3cm}\\
-		\includegraphics[width=3cm]{\@unilogo}\\
-		{\fontsize{25}{30}\selectfont \@unilong\\}
+		\vspace{1cm}\\
+		\includegraphics[width=7cm]{\@unilogo}\\
+		% {\fontsize{25}{30}\selectfont \@unilong\\}
 		{\fontsize{60}{60}\selectfont \@teamname\\}
 		\vspace{0.5cm}
 		{\huge \@teammembers\\}
